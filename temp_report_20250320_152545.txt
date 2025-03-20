@@ -1,0 +1,204 @@
+Mood Analysis Report (daily)
+Period: 2025-02-20 to 2025-03-20
+
+Summary:
+Total Entries: 32
+Average Sentiment: 0.08
+Mood Distribution:
+  Happy: 11
+  Sad: 9
+  Neutral: 12
+
+Detailed Entries:
+
+Date: 2025-03-20
+Mood: Sad
+Sentiment Score: -0.39
+Text Input: None
+Voice Input: I have a very rough day and very sad day today
+
+Date: 2025-03-20
+Mood: Neutral
+Sentiment Score: 0.00
+Text Input: None
+Voice Input: today my mum
+
+Date: 2025-03-20
+Mood: Neutral
+Sentiment Score: 0.00
+Text Input: None
+Voice Input: started coding
+
+Date: 2025-03-20
+Mood: Neutral
+Sentiment Score: 0.00
+Text Input: None
+Voice Input: today my
+
+Date: 2025-03-20
+Mood: Sad
+Sentiment Score: -1.00
+Text Input: None
+Voice Input: tell me a very badly and started crying
+
+Date: 2025-03-20
+Mood: Neutral
+Sentiment Score: 0.00
+Text Input: None
+Voice Input: I have one in a competition and
+
+Date: 2025-03-20
+Mood: Happy
+Sentiment Score: 1.00
+Text Input: i started my day with yoga then i rushed to a meeting which indeed was stressful and had good lunch with a client.
+Voice Input: None
+
+Date: 2025-03-20
+Mood: Neutral
+Sentiment Score: 0.00
+Text Input: i started my day with yoga then i rushed to a meeting which indeed was stressful
+Voice Input: None
+
+Date: 2025-03-20
+Mood: Happy
+Sentiment Score: 1.00
+Text Input: had good lunch with a client.
+Voice Input: None
+
+Date: 2025-03-20
+Mood: Neutral
+Sentiment Score: 0.00
+Text Input: None
+Voice Input: rainbow
+
+Date: 2025-03-20
+Mood: Neutral
+Sentiment Score: 0.00
+Text Input: None
+Voice Input: I am going to an amuse
+
+Date: 2025-03-20
+Mood: Neutral
+Sentiment Score: -0.04
+Text Input: None
+Voice Input: Sundaram Finance India Private Limited
+
+Date: 2025-03-20
+Mood: Sad
+Sentiment Score: -1.00
+Text Input: None
+Voice Input: hello bye
+
+Date: 2025-03-20
+Mood: Neutral
+Sentiment Score: 0.00
+Text Input: None
+Voice Input: Kitchenware
+
+Date: 2025-03-20
+Mood: Neutral
+Sentiment Score: 0.00
+Text Input: None
+Voice Input: 10 days question answer
+
+Date: 2025-03-20
+Mood: Neutral
+Sentiment Score: 0.00
+Text Input: None
+Voice Input: Jaya
+
+Date: 2025-03-20
+Mood: Sad
+Sentiment Score: -1.00
+Text Input: None
+Voice Input: rough day today
+
+Date: 2025-03-20
+Mood: Happy
+Sentiment Score: 1.00
+Text Input: None
+Voice Input: love day because my girlfriend's scol
+
+Date: 2025-03-20
+Mood: Sad
+Sentiment Score: -1.00
+Text Input: None
+Voice Input: I had a very rough day because my girlfriends scolded me very bad
+
+Date: 2025-03-20
+Mood: Sad
+Sentiment Score: -1.00
+Text Input: None
+Voice Input: rough day today because my girlfriends scolded me very badly
+
+Date: 2025-03-20
+Mood: Happy
+Sentiment Score: 1.00
+Text Input: i am doin good
+Voice Input: None
+
+Date: 2025-03-20
+Mood: Neutral
+Sentiment Score: 0.00
+Text Input: i was travelling to munnar today and i was fascinated with the view
+Voice Input: None
+
+Date: 2025-03-20
+Mood: Happy
+Sentiment Score: 1.00
+Text Input: i am enjoying my life
+Voice Input: None
+
+Date: 2025-03-20
+Mood: Sad
+Sentiment Score: -1.00
+Text Input: None
+Voice Input: I am very sad today
+
+Date: 2025-03-20
+Mood: Happy
+Sentiment Score: 1.00
+Text Input: i am very boring and happy today
+Voice Input: None
+
+Date: 2025-03-20
+Mood: Happy
+Sentiment Score: 1.00
+Text Input: i am happy
+Voice Input: None
+
+Date: 2025-03-20
+Mood: Sad
+Sentiment Score: -1.00
+Text Input: i am sad
+Voice Input: None
+
+Date: 2025-03-20
+Mood: Happy
+Sentiment Score: 1.00
+Text Input: i am happy
+Voice Input: None
+
+Date: 2025-03-20
+Mood: Happy
+Sentiment Score: 1.00
+Text Input: i am happy
+Voice Input: None
+
+Date: 2025-03-20
+Mood: Happy
+Sentiment Score: 1.00
+Text Input: i am happy
+Voice Input: None
+
+Date: 2025-03-20
+Mood: Sad
+Sentiment Score: -1.00
+Text Input: i am sad
+Voice Input: None
+
+Date: 2025-03-20
+Mood: Happy
+Sentiment Score: 1.00
+Text Input: None
+Voice Input: I am very happy today

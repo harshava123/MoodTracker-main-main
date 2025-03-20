@@ -8,121 +8,94 @@
 
 **Note:** Scroll all the way down to access the projects
 
-MoodTracker is a multi-modal mood analysis application that provides users with different ways to track and analyze their daily mood. This project combines three components: a real-time face emotion detection application, an emotion classifier app, and a voice-based mood analyzer. Each component offers unique features for mood tracking and analysis.
+A web application that helps you track your mood through text and voice input, providing sentiment analysis and visualizations of your emotional patterns over time.
 
 ## Features
-### [Real-Time Face Emotion Detection Application](https://webcamm.streamlit.app/#webcam-live-feed)
-- Real-time facial expression analysis using the computer's webcam.
-- Pre-trained model for emotion detection.
-- Displays detected mood on the screen.
 
-### [Emotion Classifier App (Text-Based Mood Analyzer)](https://mooodd.streamlit.app/)
-- An NLP-powered web app that can predict emotions from text recognition with 70 percent accuracy.
-- Utilizes Python libraries including Numpy, Pandas, Seaborn, Scikit-learn, Scipy, Joblib, eli5, lime, neattext, altair, and Streamlit.
-- Employs a Linear regression model from the scikit-learn library to train a dataset containing speeches and their respective emotions.
-- Joblib is used for storing and using the trained model in the website.
+- Text-based mood analysis
+- Voice input support with speech-to-text conversion
+- Sentiment analysis using TextBlob
+- Interactive visualizations (pie charts and line graphs)
+- Historical mood tracking and reporting
+- Modern, responsive UI with Bootstrap 5
 
-### [Voice-Based Mood Analyzer](https://www.youtube.com/watch?v=jwudzL8m4CQ)
-- Captures user's spoken input to analyze daily mood.
-- Utilizes sentiment analysis for mood tracking.
-- Offers a graphical user interface for recording and analyzing mood.
+## Prerequisites
 
-## Requirements
-The MoodTracker project requires the following dependencies for each component:
+- Python 3.8 or higher
+- pip (Python package installer)
+- A modern web browser with JavaScript enabled
+- Microphone (for voice input feature)
 
-### Real-Time Face Emotion Detection Application:
-- Python
-- OpenCV
-- Keras
-- Haar Cascade Classifier
-- Pre-trained Emotion Detection Model
+## Installation
 
-### Emotion Classifier App (Text-Based Mood Analyzer):
-- Numpy
-- Pandas
-- Seaborn
-- Scikit-learn
-- Scipy
-- Joblib
-- eli5
-- lime
-- neattext
-- altair
-- Streamlit
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/MoodTracker.git
+cd MoodTracker
+```
 
-### Voice-Based Mood Analyzer:
-- Python
-- SpeechRecognition
-- TextBlob
-- Tkinter
-- Matplotlib
+2. Create a virtual environment (recommended):
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows, use: venv\Scripts\activate
+```
+
+3. Install the required packages:
+```bash
+pip install -r requirements.txt
+```
 
 ## Usage
-To use the MoodTracker application, follow the specific installation and execution instructions for each component. Each component offers a different way to track and analyze your mood.
 
-1. **Real-Time Face Emotion Detection Application**
-- Install the required dependencies for the Real-Time Face Emotion Detection Application.
-- Clone or download the project repository.
-     ```bash
-         git clone https://github.com/CODEWITHRIZA/MoodTracker.git
-- Navigate to the `Webcam Opencv Project` folder.
-  ```bash
-   cd "Webcam Opencv Project"
- - Install the required packages and dependencies by running the following command:
-      ```bash
-    pip install -r requirements.txt
-   
- - Run the application using the following command:
-     ```bash
-    streamlit run app.py
-- The real-time face emotion detection application will open, and you can start using it by facing your webcam.
+1. Start the Flask application:
+```bash
+python app.py
+```
 
-2. **Emotion Classifier App (Text-Based Mood Analyzer)**
-- Install the required dependencies for the Emotion Classifier App.
-- - If you've already cloned or downloaded the project repository, there's no need to do it again. The given command below
-   ```bash
-        git clone https://github.com/CODEWITHRIZA/MoodTracker.git
-        cd MoodTracker
-- Navigate to the `NLP-Text-Emotion` folder.
-     ```bash
-         cd NLP-Text-Emotion
-- Install the required packages and dependencies by running the following command:
-  ```bash
-     pip install -r requirements.txt
-- Run the application using the following command: 
-  ```bash
-    streamlit run app.py
- - Access the app in your web browser, as it will provide a web interface for you to enter text and analyze emotions.
+2. Open your web browser and navigate to:
+```
+http://localhost:5000
+```
 
-3. **Voice-Based Mood Analyzer**
+3. You can now:
+   - Enter text to analyze your mood
+   - Use voice input by clicking the microphone button
+   - View your mood analysis results
+   - Generate reports with historical data
+   - Track your emotional patterns over time
 
-   - Install the required dependencies for the Voice-Based Mood Analyzer.
-   - If you've already cloned or downloaded the project repository, there's no need to do it again. The given command below
-      ```bash
-        git clone https://github.com/CODEWITHRIZA/MoodTracker.git
-        cd MoodTracker
-   - Navigate to the root folder of the project.
-   -    - Install the required packages and dependencies by running the following command:
-        ```bash 
-         pip install -r requirements.txt
-   - Run the voice-based mood analyzer using the following command:
-      ```bash
-       python voice_mood_analyzer.py
+## Project Structure
 
-   - The graphical user interface for voice-based mood analysis will open, allowing you to record and analyze your mood through spoken input.
+```
+MoodTracker/
+├── app.py              # Main Flask application
+├── requirements.txt    # Python dependencies
+├── templates/         # HTML templates
+│   ├── base.html      # Base template with common elements
+│   ├── index.html     # Main page with input and analysis
+│   └── reports.html   # Reports page with visualizations
+└── static/           # Static files (CSS, JS, images)
+```
 
-## Note
-Each component offers a different way to track and analyze your mood. Make sure you have the required dependencies installed for the component you wish to use.
+## Contributing
 
-## Combined Features
-- Mood Tracking: Each component tracks daily mood using a specific modality (real-time face, text, voice).
-- Sentiment Analysis: Sentiment analysis is performed on the captured data to determine mood.
-- Data Visualization: The text-based and voice-based analyzers provide visual mood feedback using Matplotlib.
-- Web and Graphical Interfaces: The emotion classifier app offers a web-based interface, while the voice-based component uses a graphical user interface.
-- Real-time Updates: The real-time face emotion detection application provides real-time feedback based on facial expressions.
+1. Fork the repository
+2. Create a new branch for your feature
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
 
-The MoodTracker project is designed to help users gain insights into their emotional well-being and better understand their daily mood patterns. It offers a variety of options for tracking and analyzing moods through different sensory modalities.
+## License
 
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Flask web framework
+- TextBlob for sentiment analysis
+- SpeechRecognition for voice input
+- Bootstrap for the UI components
+- Font Awesome for icons
 
 ---
 [![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com/users/887532157747212370)

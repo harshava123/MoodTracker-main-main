@@ -1,0 +1,374 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Track Your Daily Mood</h2>
+    
+    <!-- Mood Input Form -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">How are you feeling today?</h5>
+            <form id="moodForm">
+                <div class="mb-3">
+                    <label for="moodText" class="form-label">Enter your mood:</label>
+                    <textarea class="form-control" id="moodText" rows="3" placeholder="Tell me about your day..."></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="moodDate" class="form-label">Date:</label>
+                    <input type="date" class="form-control" id="moodDate" value="{{ today }}" required>
+                </div>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Submit
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="recordButton">
+                        <i class="fas fa-microphone"></i> Record Voice
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Voice Recording Status -->
+    <div id="recordingStatus" class="alert alert-info d-none">
+        <i class="fas fa-microphone-alt"></i> Recording... Speak now
+    </div>
+    
+    <!-- Results Section -->
+    <div id="results" class="d-none">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Analysis Results</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h6 class="card-subtitle mb-2 text-muted">Your Mood</h6>
+                                <h3 class="card-title" id="moodLabel">-</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h6 class="card-subtitle mb-2 text-muted">Sentiment Score</h6>
+                                <h3 class="card-title" id="sentimentScore">0.00</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h6 class="card-subtitle mb-2 text-muted">Mood Distribution</h6>
+                                <img id="moodChart" src="" alt="Mood Distribution" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Entries -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Recent Entries</h5>
+            <div class="table-responsive">
+                <table class="table table-striped" id="recentEntries">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Mood</th>
+                            <th>Sentiment</th>
+                            <th>Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Recent entries will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let mediaRecorder = null;
+let audioChunks = [];
+
+// Handle text submission
+document.getElementById('moodForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const text = document.getElementById('moodText').value;
+    const date = document.getElementById('moodDate').value;
+    
+    if (!text.trim()) {
+        alert('Please enter some text to analyze');
+        return;
+    }
+    
+    try {
+        const response = await fetch('/analyze', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ text, date })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to analyze text');
+        }
+        
+        displayResults(data);
+        loadRecentEntries();
+        
+        // Clear the text input
+        document.getElementById('moodText').value = '';
+        
+    } catch (error) {
+        console.error('Error:', error);
+        alert(error.message || 'An error occurred while analyzing your text');
+    }
+});
+
+// Handle voice recording
+let recognition = null;
+
+document.getElementById('recordButton').addEventListener('click', function() {
+    if (recognition && recognition.recording) {
+        stopRecording();
+    } else {
+        startRecording();
+    }
+});
+
+function startRecording() {
+    try {
+        // Initialize speech recognition
+        window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        
+        // Configure recognition
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'en-US';
+        
+        // Set recording flag
+        recognition.recording = true;
+        
+        // Handle results
+        recognition.onresult = function(event) {
+            const text = event.results[0][0].transcript;
+            console.log('Recognized text:', text);
+            processVoiceInput(text);
+        };
+        
+        // Handle errors
+        recognition.onerror = function(event) {
+            console.error('Speech recognition error:', event.error);
+            let errorMessage = 'An error occurred during speech recognition. ';
+            switch (event.error) {
+                case 'network':
+                    errorMessage += 'Please check your internet connection.';
+                    break;
+                case 'not-allowed':
+                case 'permission-denied':
+                    errorMessage += 'Please allow microphone access.';
+                    break;
+                case 'no-speech':
+                    errorMessage += 'No speech was detected.';
+                    break;
+                default:
+                    errorMessage += 'Please try again.';
+            }
+            alert(errorMessage);
+            stopRecording();
+        };
+        
+        // Handle end of recognition
+        recognition.onend = function() {
+            if (recognition.recording) {
+                stopRecording();
+            }
+        };
+        
+        // Start recognition
+        recognition.start();
+        
+        // Update UI
+        document.getElementById('recordButton').innerHTML = '<i class="fas fa-stop"></i> Stop Recording';
+        document.getElementById('recordButton').classList.remove('btn-secondary');
+        document.getElementById('recordButton').classList.add('btn-danger');
+        document.getElementById('recordingStatus').innerHTML = 
+            '<i class="fas fa-microphone-alt"></i> Recording... Speak now';
+        document.getElementById('recordingStatus').classList.remove('d-none');
+        
+    } catch (error) {
+        console.error('Error starting speech recognition:', error);
+        if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+            alert('Microphone access was denied. Please allow microphone access in your browser settings.');
+        } else if (error.name === 'NotFoundError') {
+            alert('No microphone found. Please connect a microphone and try again.');
+        } else {
+            alert('Could not access microphone. Please check your microphone settings.');
+        }
+    }
+}
+
+function stopRecording() {
+    if (recognition) {
+        recognition.recording = false;
+        recognition.stop();
+        recognition = null;
+        
+        // Update UI
+        document.getElementById('recordButton').innerHTML = '<i class="fas fa-microphone"></i> Record Voice';
+        document.getElementById('recordButton').classList.remove('btn-danger');
+        document.getElementById('recordButton').classList.add('btn-secondary');
+        document.getElementById('recordingStatus').classList.add('d-none');
+    }
+}
+
+async function processVoiceInput(text) {
+    try {
+        // Show processing status
+        document.getElementById('recordingStatus').innerHTML = 
+            '<i class="fas fa-spinner fa-spin"></i> Processing voice input...';
+        document.getElementById('recordingStatus').classList.remove('d-none');
+        
+        const response = await fetch('/record-voice', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ text: text })
+        });
+        
+        if (!response.ok) {
+            const data = await response.json();
+            throw new Error(data.error || 'Failed to process voice input');
+        }
+        
+        const data = await response.json();
+        console.log('Voice processing response:', data);  // Debug log
+        
+        // Set the transcribed text in the textarea
+        document.getElementById('moodText').value = data.text;
+        
+        // Display results
+        displayResults(data);
+        
+        // Refresh recent entries
+        loadRecentEntries();
+        
+        // Hide processing status
+        document.getElementById('recordingStatus').classList.add('d-none');
+        
+    } catch (error) {
+        console.error('Error:', error);
+        alert(error.message || 'An error occurred while processing your voice input');
+        document.getElementById('recordingStatus').classList.add('d-none');
+    }
+}
+
+function displayResults(data) {
+    console.log('Received data:', data);  // Debug log
+    
+    // Show results section
+    document.getElementById('results').classList.remove('d-none');
+    
+    // Update mood and sentiment
+    const moodLabel = document.getElementById('moodLabel');
+    const sentimentScore = document.getElementById('sentimentScore');
+    const moodChart = document.getElementById('moodChart');
+    
+    // Set mood with appropriate color
+    moodLabel.textContent = data.mood;
+    moodLabel.className = `card-title text-${getMoodColor(data.mood)}`;
+    
+    // Set sentiment score
+    sentimentScore.textContent = data.sentiment.toFixed(2);
+    
+    // Handle pie chart
+    if (data.plot_url) {
+        console.log('Setting chart URL:', data.plot_url.substring(0, 50) + '...');  // Debug log
+        
+        // Set the chart source and make it visible
+        moodChart.src = data.plot_url;
+        moodChart.style.display = 'block';
+        moodChart.style.maxWidth = '200px';  // Limit the size
+        moodChart.style.margin = '0 auto';   // Center the image
+        
+        // Handle load error
+        moodChart.onerror = function() {
+            console.error('Error loading mood chart');
+            moodChart.style.display = 'none';
+            // Show error message in place of chart
+            moodChart.parentElement.innerHTML = '<p class="text-danger">Error loading chart</p>';
+        };
+        
+        // Handle successful load
+        moodChart.onload = function() {
+            console.log('Chart loaded successfully');  // Debug log
+        };
+    } else {
+        console.log('No plot URL received');  // Debug log
+        moodChart.style.display = 'none';
+        // Show message in place of chart
+        moodChart.parentElement.innerHTML = '<p class="text-muted">No chart available</p>';
+    }
+}
+
+// Helper function to get appropriate color class for mood
+function getMoodColor(mood) {
+    switch (mood.toLowerCase()) {
+        case 'happy':
+            return 'success';
+        case 'sad':
+            return 'danger';
+        default:
+            return 'warning';
+    }
+}
+
+async function loadRecentEntries() {
+    try {
+        const response = await fetch('/get-recent-entries');
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to load recent entries');
+        }
+        
+        const tbody = document.querySelector('#recentEntries tbody');
+        tbody.innerHTML = '';
+        
+        data.entries.forEach(entry => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${entry.date}</td>
+                <td><span class="badge bg-${getMoodColor(entry.mood_category)}">${entry.mood_category}</span></td>
+                <td>${entry.sentiment_score.toFixed(2)}</td>
+                <td>${entry.text_input || entry.voice_input || 'No input'}</td>
+            `;
+            tbody.appendChild(row);
+        });
+        
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to load recent entries');
+    }
+}
+
+// Load recent entries when the page loads
+document.addEventListener('DOMContentLoaded', loadRecentEntries);
+</script>
+{% endblock %} 
