@@ -1,6 +1,5 @@
 # MoodTracker
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![GitHub stars](https://img.shields.io/github/stars/findkeys/MoodTracker)](https://github.com/your-username/bot-front-web-app/stargazers)
+
 
 ## MoodTracker Live Demo
 
